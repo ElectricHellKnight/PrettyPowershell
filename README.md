@@ -7,7 +7,7 @@ This script allows you to easily customize your powershell prompt. You can adjus
 Run `$Profile` to figure out where to put this if you are unsure.
 
 To toggle what's show, change these values:
- ![Where to change colors[./readmepics/setoptions.png]
+ ![Where to change colors](./readmepics/setoptions.png)
 
 To change the colors, change these values (use PowerShell color names, see: https://stackoverflow.com/questions/20541456/list-of-all-colors-available-for-powershell):
  ![Where to change colors[./readmepics/setcolors.png]
