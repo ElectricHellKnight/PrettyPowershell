@@ -31,6 +31,6 @@ Shorthand working path:
  
 Full working path:
 
- ![The prompt shows the full working path](./readmepics/longpath.png)
+ ![The prompt shows the full working path](./readmepics/fullpath.png)
  
 Original credit to: https://commandline.ninja/customize-pscmdprompt/ I took this and reworked it so it's far easier to customize.
