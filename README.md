@@ -2,7 +2,9 @@
 
 Because why should Linux users have all the fun with their prompts?
 
-This script allows you to easily customize your powershell prompt. You can adjust what is shown, change the colors, see time of the last command, get a warning if you're running as admin, etc.
+This script allows you to easily customize your PowerShell prompt. You can adjust what is shown, change the colors, see time of the last command, get a warning if you're running as admin, etc.
+
+It can also change the title of your PowerShell windows to display the path.
 
 Run `$Profile` to figure out where to put this if you are unsure.
 
