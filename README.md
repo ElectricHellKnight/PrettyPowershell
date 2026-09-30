@@ -1,5 +1,7 @@
 # PrettyPowershell #
 
+Current version: v1.2.1
+
 Because why should Linux users have all the fun with their prompts?
 
 This script allows you to easily customize your PowerShell prompt. You can adjust what is shown, change the colors, see time of the last command, get a warning if you're running as admin, etc.
