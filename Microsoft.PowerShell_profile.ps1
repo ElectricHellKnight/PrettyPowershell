@@ -1,19 +1,30 @@
+##### Pretty powershell v1.2.1 #####
+
 # Prettify the PowerShell prompt. You need to run $Profile to figure out where to put this, it varies.
 
-# Credit: https://commandline.ninja/customize-pscmdprompt/ (Changes were made)
+# Credit: https://commandline.ninja/customize-pscmdprompt/ (The original source, many changes were made to make it more customizable)
 
-# Settings
-$global:ShowUserName = 1                    # 0 - off, 1 - on # Show the username
-$global:ShowHostName = 1                    # 0 - off, 1 - on # Show the hostname
+##---Config options---##
+
+## Prompt settings ##
+$global:ShowUserName = 1                    # 0 - off, 1 - on # Show the username in the prompt
+$global:ShowHostName = 1                    # 0 - off, 1 - on # Show the hostname in the prompt
 $global:ShowAdminAlert = 1                  # 0 - off, 1 - on # Show a warning if you're running elevated (note, this only works in new windows) 
 $global:ChangeWindowTitles = 1              # 0 - off, 1 - directory only, 2 - entire path # Change the window title to match the working directory
-$global:ShowWorkingDir = 2                  # 0 - off, 1 - directory only, 2 - entire path # Change the prompt to match the working directory
+$global:ShowWorkingDir = 1                  # 0 - off, 1 - directory only, 2 - entire path # Change the prompt to match the working directory
 $global:ShowLastTime = 1                    # 0 - off, 1 - on # Show the runtime of the last-executed command
-$global:ShowDateTime = 0                    # 0 - off, 1 - on # Show the date/time
-$global:DateTimeFormat = "dddd hh:mm:ss"    # Format for the date/time # https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-date?view=powershell-7.6
+$global:ShowDateTime = 0                    # 0 - off, 1 - on # Show the date/time on each line before the prompt
 
+## Header settings ##
+$global:HeaderIsEnabled = 1					# 0 - off, 1 - on # Show the header on new windows
+$global:HeaderDateTime = 1                  # 0 - off, 1 - on # Show the date/time in the header
+$global:HeaderUserName = 1                  # 0 - off, 1 - on # Show the username in the header
+$global:HeaderHostName = 1                  # 0 - off, 1 - on # Show the host name in the header
 
-# Colors
+## Format settings ##
+$global:DateTimeFormat = "dddd MM/dd/yy HH:mm:ss"    # Format for the date/time # https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-date?view=powershell-7.6
+
+## Colors ##
 
 # Use PowerShell color names WITH quotes # https://stackoverflow.com/questions/20541456/list-of-all-colors-available-for-powershell
 # To avoid changing the color for a certain value, set it to "(Get-Host).ui.rawui.BackgroundColor" WITHOUT quotes
@@ -27,7 +38,6 @@ $global:FGLastTime = "Green"                                  # Foreground color
 $global:BGDateTime = "Black"                                  # Background color for date
 $global:FGDateTime = "White"                                  # Foreground color for date
 
-
 $global:BGAdminAlert = "DarkRed"                              # Background color for admin/elevated warning
 $global:FGAdminAlert = "White"                                # Foreground color for admin/elevated warning
 
@@ -35,10 +45,41 @@ $global:BGUserName = "DarkBlue"                               # Background color
 $global:FGUserName = "Green"                                  # Foreground color for username
 
 $global:BGHostName = "DarkBlue"                               # Background color for hostname
-$global:FGHostName = "DarkMagenta"                            # Foreground color for hostname
+$global:FGHostName = "Magenta"                          	  # Foreground color for hostname
 
 $global:BGDirName = "DarkGray"                                # Background color for directory
 $global:FGDirName = "White"                                   # Foregroung color for directory
+
+
+## Aliases ##
+
+# Edit these as you like
+
+function doas {
+	# I find this handy, to run something as an admin. I call it doas since Windows actually does have a (bastardized) sudo command now.
+	# You'll have to set the name to match your admin user if you want it.
+	runas /user:admin $args
+}
+
+#function notepad {
+	# Use notepad++ instead of notepad.exe, uncomment if you prefer notepad++.
+#    start "C:\Program Files\Notepad++\notepad++.exe" $args
+#}
+
+function explorer {
+	# Make explorer open the current working directory if no other arguments are specified
+	if ($args.Count -gt 0) {
+		explorer.exe $args
+	}
+	else {
+		explorer.exe .
+	}
+}
+
+##---End of config options---##
+
+
+
 
 
 
@@ -65,6 +106,26 @@ function Last-Time {
         $global:ElapsedTime = [math]::Round(($RunTime), 2)
         $global:ElapsedTime = -join (($ElapsedTime.ToString()), " sec")
     }
+}
+
+
+# Print the header
+if ($HeaderIsEnabled -eq 1) {
+	Write-Host -------------------------------------------------
+	if ($HeaderHostName -eq 1) {
+	# Print the hostname in the header
+	Write-Host Logged into: "$(Hostname)"
+	}
+	if ($HeaderUserName -eq 1) {
+		# Print the username in the header
+		Write-Host Logged in as: "$Env:UserName"
+	}
+	if ($HeaderDateTime -eq 1) {
+		# Print the date/time in the header
+		Write-Host "$(Get-Date -Format $DateTimeFormat)"
+	}
+	Write-Host -------------------------------------------------
+	Write-Host
 }
 
 
