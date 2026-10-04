@@ -1,4 +1,4 @@
-##### Pretty powershell v1.2.1 #####
+##### Pretty powershell v1.2.2 #####
 
 # Prettify the PowerShell prompt. You need to run $Profile to figure out where to put this, it varies.
 
@@ -109,25 +109,29 @@ function Last-Time {
 }
 
 
-# Print the header
-if ($HeaderIsEnabled -eq 1) {
-	Write-Host -------------------------------------------------
-	if ($HeaderHostName -eq 1) {
-	# Print the hostname in the header
-	Write-Host Logged into: "$(Hostname)"
+$NotInteract = -not [Console]::IsInputRedirected
+if ($NotInteract) {
+	# Wrap all of this header printing inside a check to make sure we're not corrupting an SFTP session
+	# Windows SFTP sessions run PowerShell with redirected pipes so [Console]::IsInputRedirected is $true for them and $false for a normal SSH
+	if ($HeaderIsEnabled -eq 1) {
+		# Printer the header if enabled
+		Write-Host -------------------------------------------------
+		if ($HeaderHostName -eq 1) {
+			# Print the hostname in the header
+			Write-Host Logged into: "$(Hostname)"
+		}
+		if ($HeaderUserName -eq 1) {
+			# Print the username in the header
+			Write-Host Logged in as: "$Env:UserName"
+		}
+		if ($HeaderDateTime -eq 1) {
+			# Print the date/time in the header
+			Write-Host "$(Get-Date -Format $DateTimeFormat)"
+		}
+		Write-Host -------------------------------------------------
+		Write-Host
 	}
-	if ($HeaderUserName -eq 1) {
-		# Print the username in the header
-		Write-Host Logged in as: "$Env:UserName"
-	}
-	if ($HeaderDateTime -eq 1) {
-		# Print the date/time in the header
-		Write-Host "$(Get-Date -Format $DateTimeFormat)"
-	}
-	Write-Host -------------------------------------------------
-	Write-Host
 }
-
 
 # Main function
 
