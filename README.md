@@ -1,6 +1,6 @@
 # PrettyPowershell #
 
-Current version: v1.2.1
+Current version: v1.2.2
 
 Because why should Linux users have all the fun with their prompts?
 
